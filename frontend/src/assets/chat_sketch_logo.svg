@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="193" height="46" viewBox="0 0 193 46" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .fill { fill: #0F4D3F; }
+      .text { font-family: "Inter", "Helvetica Neue", Arial, sans-serif; font-weight: 700; font-size: 18px; fill: #0F4D3F; letter-spacing: -0.5px; }
+    </style>
+  </defs>
+
+  <!-- Icon: chat bubble with image -->
+  <g transform="translate(3,3) scale(0.08)">
+    <path class="fill" d="M 40 0 h 360 a 40 40 0 0 1 40 40 v 240 a 40 40 0 0 1 -40 40 h -120 l -40 40 v -40 h -200 a 40 40 0 0 1 -40 -40 v -240 a 40 40 0 0 1 40 -40 z"/>
+    <circle fill="#FBF5EA" cx="80" cy="80" r="30"/>
+    <path fill="#FBF5EA" d="M 40 240 L 110 160 L 170 220 L 240 150 L 360 240 Z"/>
+  </g>
+
+  <!-- Text -->
+  <text x="50" y="30" class="text">ChatSketch</text>
+</svg>
