@@ -23,12 +23,12 @@ const Message = ({message}) => {
             {moment(message.timestamp).fromNow()}
           </span>
           </div>
-          <img src={assets.user_icon} alt='' className='w-8 rounded-full'></img>
+          <img src={assets.account} alt='' className='w-8 rounded-full'></img>
         </div>
       )
     : 
     (
-      <div className='inline-flex flex-col gap-2 p-2 px-4 max-w-2xl bg-primary/20 dark:bg-slate-800/50 border border-gray-300 dark:border-slate-700 rounded-md my-4'>
+      <div className='inline-flex flex-col gap-2 p-2 px-4 max-w-2xl bg-blue-100/50 dark:bg-slate-800/50 border border-gray-300 dark:border-slate-700 rounded-md my-4'>
         {message.isImage ? (
           <img src={message.content} className='w-full max-w-md mt-2 rounded-md'></img>
         ) : 
