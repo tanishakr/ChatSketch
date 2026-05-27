@@ -5,7 +5,7 @@ import imagekit from "../configs/imageKit.js";
 import openai from "../configs/openai.js";
 
 //test-based AI chat controller
-export const textMessageController = async (req, res) => {
+/* export const textMessageController = async (req, res) => {
   try {
     const userId = req.user._id;
 
@@ -20,7 +20,7 @@ export const textMessageController = async (req, res) => {
     });
 
     const { choices } = await openai.chat.completions.create({
-      model: "gemini-1.5-flash-latest",
+      model: "gemini-2.0-flash",
       messages: [
         {
           role: "user",
@@ -38,6 +38,56 @@ export const textMessageController = async (req, res) => {
 
     chat.messages.push(reply);
     await chat.save();
+  } catch (error) {
+    res.json({ success: false, message: error.message });
+  }
+};
+*/
+
+//text-based AI chat controller
+export const textMessageController = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const { chatId, prompt } = req.body;
+
+    const chat = await Chat.findOne({ userId, _id: chatId });
+    chat.messages.push({
+      role: "user",
+      content: prompt,
+      timeStamp: Date.now(),
+      isImage: false,
+    });
+
+    // Retry logic for rate limiting
+    let choices;
+    let attempts = 0;
+    const maxAttempts = 3;
+
+    while (attempts < maxAttempts) {
+      try {
+        const response = await openai.chat.completions.create({
+          model: "gemini-2.0-flash",
+          messages: [{ role: "user", content: prompt }],
+        });
+        choices = response.choices;
+        break; // success, exit loop
+      } catch (err) {
+        attempts++;
+        if (attempts === maxAttempts) throw err; // give up after 3 tries
+        await new Promise(resolve => setTimeout(resolve, 2000 * attempts)); // wait 2s, 4s
+      }
+    }
+
+    const reply = {
+      ...choices[0].message,
+      timeStamp: Date.now(),
+      isImage: false,
+    };
+
+    res.json({ success: true, reply });
+    chat.messages.push(reply);
+    await chat.save();
+
   } catch (error) {
     res.json({ success: false, message: error.message });
   }
