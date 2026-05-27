@@ -111,21 +111,18 @@ export const imageMessageController = async (req, res) => {
 
     // 1. Generate the image using Gemini Flash Image Preview
     const apiKey = process.env.GEMINI_API_KEY;
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${apiKey}`;
-
-    /* const payload = {
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-image-preview:generateContent?key=${apiKey}`;
+    
+    const payload = {
       contents: [{
         parts: [{ text: prompt }]
       }],
       generationConfig: {
         responseModalities: ['TEXT', 'IMAGE'] // Request an image response
       },
-    }; */
+    }; 
 
-    const payload = {
-  instances: [{ prompt: prompt }],
-  parameters: { sampleCount: 1 }
-};
+  
 
     const fetchResponse = await fetch(apiUrl, {
       method: 'POST',
@@ -141,9 +138,8 @@ export const imageMessageController = async (req, res) => {
     const result = await fetchResponse.json();
     
     // 2. Get the base64 data from the new response structure
-    //const base64ImageData = result?.candidates?.[0]?.content?.parts?.find(p => p.inlineData)?.inlineData?.data;
-    const base64ImageData = result?.predictions?.[0]?.bytesBase64Encoded;
-
+    const base64ImageData = result?.candidates?.[0]?.content?.parts?.find(p => p.inlineData)?.inlineData?.data;
+    
     if (!base64ImageData) {
       throw new Error("Invalid or empty response from Gemini API");
     }
