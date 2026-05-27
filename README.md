@@ -1,5 +1,7 @@
 # ChatSketch
 
+> **Note:** Text generation may occasionally hit free tier rate limits on the Gemini API. If the chat doesn't respond, please try again after a few minutes.
+
 ChatSketch is a modern, full-stack AI chat application built with React and Node.js. It allows users to have real-time text-based conversations with an AI and generate creative images from prompts.
 
 ## 🚀 Key Features
